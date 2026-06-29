@@ -2,7 +2,7 @@
 
 A Streamlit web app that lets you compare how the big tech stocks (AAPL, GOOG, MSFT, AMZN, NFLX, FB) have grown since January 2018.
 
-**Live app:** _[paste your Streamlit Cloud URL here after deploying]_
+**Live app:** https://stocks-projectgit-ekaqctnd4kgv2sqeiwewyt.streamlit.app/
 
 ---
 
