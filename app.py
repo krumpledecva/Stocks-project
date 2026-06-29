@@ -1,6 +1,5 @@
 import pandas as pd
 import plotly.express as px
-import plotly.graph_objects as go
 import streamlit as st
 
 st.set_page_config(page_title="Stock Explorer", layout="wide")
@@ -46,9 +45,18 @@ if not chosen:
 mask = (df["date"].dt.date >= start_date) & (df["date"].dt.date <= end_date)
 dff = df[mask].copy()
 
+if dff.empty or len(dff) < 2:
+    st.warning("No data in the selected date range. Please widen the range.")
+    st.stop()
+
+# Re-index every stock to 1.00 at the first day of the selected period so
+# the charts and calculator reflect growth *within* the chosen window.
+for t in tickers:
+    dff[t] = dff[t] / dff[t].iloc[0]
+
 st.caption(
-    f"Prices indexed to 1.00 at the start of the selected period "
-    f"({start_date.strftime('%b %Y')} – {end_date.strftime('%b %Y')})."
+    f"Prices re-indexed to 1.00 at {start_date.strftime('%b %Y')} "
+    f"— showing growth through {end_date.strftime('%b %Y')}."
 )
 
 # ── Key metrics row ───────────────────────────────────────────────────────────

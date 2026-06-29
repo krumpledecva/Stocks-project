@@ -2,7 +2,7 @@
 
 A Streamlit web app that lets you compare how the big tech stocks (AAPL, GOOG, MSFT, AMZN, NFLX, FB) have grown since January 2018.
 
-**Live app:** _add your Streamlit Cloud link here_
+**Live app:** _[paste your Streamlit Cloud URL here after deploying]_
 
 ---
 
@@ -15,6 +15,7 @@ A Streamlit web app that lets you compare how the big tech stocks (AAPL, GOOG, M
 - **Growth bar chart** — side-by-side total growth comparison
 - **Volatility indicator** — which stock bounced around the most
 - **Did you know?** — a real-world fact fetched about Apple's history
+- **Custom dark theme** — branded red-on-dark colour scheme via `.streamlit/config.toml`
 
 ---
 
@@ -80,8 +81,10 @@ streamlit run app.py
 |------|---------|
 | `app.py` | Main Streamlit application |
 | `requirements.txt` | Python dependencies for Streamlit Cloud |
+| `.streamlit/config.toml` | Custom dark theme |
 | `.gitignore` | Keeps secrets and temp files out of git |
 | `README.md` | This file |
+| `Reflection.txt` | Personal reflection on the build process |
 
 ---
 
