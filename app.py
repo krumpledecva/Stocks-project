@@ -61,12 +61,19 @@ st.caption(
 
 # ── Key metrics row ───────────────────────────────────────────────────────────
 best = max(chosen, key=lambda t: dff[t].iloc[-1])
-cols = st.columns(len(chosen) + 1)
+worst = min(chosen, key=lambda t: dff[t].iloc[-1])
+cols = st.columns(len(chosen) + 2)
 for col, t in zip(cols, chosen):
     growth = (dff[t].iloc[-1] - 1) * 100
-    label = f"🏆 {t}" if t == best else t
+    if t == best:
+        label = f"🏆 {t}"
+    elif t == worst:
+        label = f"📉 {t}"
+    else:
+        label = t
     col.metric(label, f"{dff[t].iloc[-1]:.2f}x", f"{growth:+.1f}%")
-cols[-1].metric("Best performer", best, f"+{(dff[best].iloc[-1]-1)*100:.1f}%")
+cols[-2].metric("Best performer", best, f"+{(dff[best].iloc[-1]-1)*100:.1f}%")
+cols[-1].metric("Least growth", worst, f"{(dff[worst].iloc[-1]-1)*100:+.1f}%")
 
 # ── $X investment calculator ──────────────────────────────────────────────────
 st.subheader(f"💸 What if you invested ${invest_amount:,}?")
