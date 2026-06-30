@@ -93,4 +93,8 @@ streamlit run app.py
 
 ## Reflection
 
-Building this app showed how powerful MCP skill packs are for accelerating development. **Context7** was the most helpful — it ensured the Streamlit code used up-to-date APIs rather than deprecated patterns. The most surprising thing was how seamlessly **Playwright** acted as a robot QA tester: it opened the live URL, waited for the app to wake up, and took a screenshot entirely on its own — no manual browser interaction needed at all.
+I was surprised by how much you can build without knowing how to code. I mostly described what I wanted in plain English and Claude turned it into a working app. The MCP that helped me the most was **GitHub** — without it I would have had no idea how to push code to a repository. **Fetch** was also useful because it found real facts about the companies that I could show in the app, and they rotate every 30 seconds which makes the app feel more alive.
+
+The hardest part was the design. I found a demo app I liked and asked Claude to copy its colours and fonts. It took a couple of tries to get it right — the first attempt showed the raw CSS code as text on the page, which looked broken. Once that was fixed the warm cream background and handwritten-style fonts made the app look much more personal.
+
+I also added extra features beyond the basic requirements: a "Beat the Market" section that shows whether each stock outperformed the Big Tech average, and a Risk vs. Return chart that puts all stocks on one graph so you can instantly see which ones gave the best return for the risk taken. For the screenshots I did those manually because I wanted to choose exactly what part of the app to capture.
