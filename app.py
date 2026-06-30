@@ -300,3 +300,103 @@ vol_cols = st.columns(len(chosen))
 for col, t in zip(vol_cols, chosen):
     label = f"🌪 {t}" if t == most_volatile else t
     col.metric(label, f"{vol_data[t]:.2f}%")
+
+st.divider()
+
+# ── Beat the market indicator ─────────────────────────────────────────────────
+# Benchmark: equal-weighted average of ALL 6 big tech stocks in the dataset
+st.subheader("🎯 Beat the Market?")
+benchmark_growth = (dff[tickers].mean(axis=1).iloc[-1] - 1) * 100
+st.caption(
+    f"Benchmark: equal-weighted Big Tech average — "
+    f"**{benchmark_growth:+.1f}%** over the selected period. "
+    f"Stocks above this line beat the basket."
+)
+
+btm_cols = st.columns(len(chosen))
+for col, t in zip(btm_cols, chosen):
+    stock_growth = (dff[t].iloc[-1] - 1) * 100
+    diff = stock_growth - benchmark_growth
+    beat = diff >= 0
+    col.metric(
+        label=f"{'✅' if beat else '❌'} {t}",
+        value=f"{stock_growth:+.1f}%",
+        delta=f"{'+'if beat else ''}{diff:.1f}% vs benchmark",
+    )
+
+# Benchmark line on a mini chart
+dff_bench = dff.copy()
+dff_bench["📊 Big Tech Avg"] = dff[tickers].mean(axis=1)
+fig_btm = px.line(
+    dff_bench, x="date", y=chosen + ["📊 Big Tech Avg"],
+    title="Your picks vs. Big Tech average",
+    color_discrete_sequence=SQUAD_COLORS + ["#3D3225"],
+)
+fig_btm.update_traces(
+    selector=dict(name="📊 Big Tech Avg"),
+    line=dict(dash="dash", width=2.5, color="#3D3225"),
+)
+fig_btm.update_layout(
+    yaxis_title="Price (indexed)", xaxis_title="Date",
+    font_family="Nunito",
+    plot_bgcolor="#FBF6EC", paper_bgcolor="#FBF6EC",
+    title_font=dict(family="Caveat Brush", size=22, color="#3D3225"),
+    legend=dict(font=dict(family="Caveat", size=14)),
+    xaxis=dict(gridcolor="#D9C9AE", linecolor="#3D3225"),
+    yaxis=dict(gridcolor="#D9C9AE", linecolor="#3D3225"),
+)
+st.plotly_chart(fig_btm, use_container_width=True)
+
+st.divider()
+
+# ── Risk vs. Return scatter plot ──────────────────────────────────────────────
+st.subheader("🌍 Risk vs. Return")
+st.caption("Each dot is one stock. Right = more volatile (risky). Up = more growth. Best picks are top-left.")
+
+all_growth = {t: (dff[t].iloc[-1] - 1) * 100 for t in tickers}
+all_vol    = {t: dff[t].pct_change().std() * 100 for t in tickers}
+
+scatter_df = pd.DataFrame({
+    "Stock":      tickers,
+    "Volatility": [all_vol[t] for t in tickers],
+    "Growth":     [all_growth[t] for t in tickers],
+    "Selected":   ["Selected" if t in chosen else "Other" for t in tickers],
+})
+
+fig_scatter = px.scatter(
+    scatter_df,
+    x="Volatility", y="Growth",
+    text="Stock",
+    color="Selected",
+    color_discrete_map={"Selected": "#E89BAD", "Other": "#D9C9AE"},
+    size=[18] * len(tickers),
+    title="Risk vs. Return — all stocks",
+)
+fig_scatter.update_traces(
+    textposition="top center",
+    textfont=dict(family="Caveat", size=15, color="#3D3225"),
+    marker=dict(line=dict(width=2, color="#3D3225")),
+)
+# Quadrant lines at the benchmark values
+avg_vol    = sum(all_vol.values()) / len(all_vol)
+avg_growth = sum(all_growth.values()) / len(all_growth)
+fig_scatter.add_hline(
+    y=avg_growth, line_dash="dot", line_color="#7A6A55", line_width=1.5,
+    annotation_text="avg growth", annotation_font=dict(family="Caveat", color="#7A6A55"),
+)
+fig_scatter.add_vline(
+    x=avg_vol, line_dash="dot", line_color="#7A6A55", line_width=1.5,
+    annotation_text="avg risk", annotation_font=dict(family="Caveat", color="#7A6A55"),
+)
+fig_scatter.update_layout(
+    xaxis_title="Volatility (daily % std dev)",
+    yaxis_title="Total growth (%)",
+    font_family="Nunito",
+    plot_bgcolor="#FBF6EC", paper_bgcolor="#FBF6EC",
+    title_font=dict(family="Caveat Brush", size=22, color="#3D3225"),
+    legend=dict(font=dict(family="Caveat", size=14), title=""),
+    xaxis=dict(gridcolor="#D9C9AE", linecolor="#3D3225"),
+    yaxis=dict(gridcolor="#D9C9AE", linecolor="#3D3225"),
+    showlegend=True,
+)
+st.plotly_chart(fig_scatter, use_container_width=True)
