@@ -1,21 +1,23 @@
 # 📈 Stock Price Explorer
 
-A Streamlit web app that lets you compare how the big tech stocks (AAPL, GOOG, MSFT, AMZN, NFLX, FB) have grown since January 2018.
+A Streamlit web app that compares how big tech stocks (AAPL, GOOG, MSFT, AMZN, NFLX, FB) have grown since January 2018.
 
 **Live app:** https://stocks-projectgit-ekaqctnd4kgv2sqeiwewyt.streamlit.app/
+**GitHub repo:** https://github.com/krumpledecva/Stocks-project
 
 ---
 
 ## Features
 
 - **Normalized price chart** — compare growth on the same scale
-- **Best performer badge** — highlights the top stock in your selection
+- **Best & least performer badges** — 🏆 top stock, 📉 bottom stock highlighted automatically
 - **Date-range slider** — zoom into any period since Jan 2018
-- **Investment calculator** — "what if I invested $1,000?"
+- **Investment calculator** — "what if I invested $1,000?" per stock
 - **Growth bar chart** — side-by-side total growth comparison
 - **Volatility indicator** — which stock bounced around the most
-- **Did you know?** — a real-world fact fetched about Apple's history
-- **Custom dark theme** — branded red-on-dark colour scheme via `.streamlit/config.toml`
+- **Beat the Market** — each stock vs. the equal-weighted Big Tech average, with ✅/❌ verdict
+- **Risk vs. Return scatter** — growth % vs. volatility for all stocks, with quadrant lines
+- **Rotating "Did you know?"** — real facts fetched about Apple, Microsoft, Google, Amazon, Netflix and Meta; new fact every 30 seconds
 
 ---
 
@@ -31,12 +33,12 @@ graph LR
     D --> E["🌐 Live URL\n.streamlit.app"]
     E --> F["👤 User\n(Browser)"]
 
-    style A fill:#f0f4ff,stroke:#4a6cf7
-    style B fill:#ff4b4b,stroke:#cc0000,color:#fff
-    style C fill:#24292e,stroke:#000,color:#fff
-    style D fill:#ff4b4b,stroke:#cc0000,color:#fff
-    style E fill:#00c49a,stroke:#009977,color:#fff
-    style F fill:#f0f4ff,stroke:#4a6cf7
+    style A fill:#F7DA9E,stroke:#3D3225
+    style B fill:#F4B6C2,stroke:#3D3225,color:#3D3225
+    style C fill:#3D3225,stroke:#000,color:#FBF6EC
+    style D fill:#B5DDC8,stroke:#3D3225,color:#3D3225
+    style E fill:#A8C8E1,stroke:#3D3225,color:#3D3225
+    style F fill:#F5EDE0,stroke:#3D3225
 ```
 
 ![Architecture diagram](https://mermaid.ink/img/pako:eNqVzzFOwzAUgOG9p3hKl1ZqIquKqNIBqUlaGDqgok5NBje1IaprW7YDzciKQBSxwMTCITgPF4AjoFhp1AGQWO3vf8--UFhewnTWAgAYLZyv16dbOGPCsBLCImfGzXnCz43I1hBjgxPekVtvhQ32dHWou04KrnsMYdXu7gFL6cmyShTBG5YbGEnppHZ-aGVk5Quc5Oa0WCbcznHJVjKhiAJFpKh9ZH28cD6ebz7fH6CZmfBIbDYFz00JERPFqg5iG4yrBXc7mOZXBOazacI9vS893LxmbPGkwo9vMNdEJbwTKnGtieo6acsibUpGYAQ0Z2zYpoj6lPa0UWJNhm0fH2V0cODCvaP-0l82LssQQqiXCSZUdUkPkqhO-n4_6JMm-dXH_18xrhOEMj_AByuCYDD4OZn89eFvY1u2BQ)
@@ -57,6 +59,8 @@ journey
       Compare growth metrics: 5: App
       Check best performer badge: 5: App
       Run investment calculator: 4: User
+      Check Beat the Market verdict: 5: App
+      Read Risk vs. Return scatter: 5: App
     section Share
       Copy live URL: 5: User
       Share with colleagues: 5: User
@@ -69,7 +73,7 @@ journey
 ## Quick start
 
 ```bash
-pip install streamlit pandas plotly
+pip install streamlit pandas plotly streamlit-autorefresh
 streamlit run app.py
 ```
 
@@ -81,13 +85,12 @@ streamlit run app.py
 |------|---------|
 | `app.py` | Main Streamlit application |
 | `requirements.txt` | Python dependencies for Streamlit Cloud |
-| `.streamlit/config.toml` | Custom dark theme |
+| `.streamlit/config.toml` | Warm parchment colour theme |
 | `.gitignore` | Keeps secrets and temp files out of git |
 | `README.md` | This file |
-| `Reflection.txt` | Personal reflection on the build process |
 
 ---
 
 ## Reflection
 
-Building this app showed how powerful MCP skill packs are for accelerating development. **Context7** was the most helpful — it ensured the Streamlit code used up-to-date APIs rather than deprecated patterns. The most surprising thing was how seamlessly **Playwright** acted as a robot QA tester: it opened the live URL, waited for the app to wake up, and took a screenshot entirely on its own — no manual browser interaction needed.
+Building this app showed how powerful MCP skill packs are for accelerating development. **Context7** was the most helpful — it ensured the Streamlit code used up-to-date APIs rather than deprecated patterns. The most surprising thing was how seamlessly **Playwright** acted as a robot QA tester: it opened the live URL, waited for the app to wake up, and took a screenshot entirely on its own — no manual browser interaction needed at all.
