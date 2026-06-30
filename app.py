@@ -1,14 +1,31 @@
+import time
 import pandas as pd
 import plotly.express as px
 import streamlit as st
+from streamlit_autorefresh import st_autorefresh
 
 st.set_page_config(page_title="Stock Explorer", layout="wide")
 st.title("📈 Stock Price Explorer")
 
-st.info(
-    "💡 Did you know? Apple's 1980 IPO created ~300 millionaires in a single day, "
-    "with shares jumping from $22 to $29."
-)
+# Auto-refresh every 30 seconds to rotate the Did you know? fact
+st_autorefresh(interval=30_000, key="fact_refresh")
+
+DID_YOU_KNOW = [
+    ("🍎 Apple", "Apple's 1980 IPO created ~300 millionaires in a single day, with shares jumping from $22 to $29."),
+    ("🪟 Microsoft", "Microsoft's 1986 IPO made an estimated 4 billionaires and 12,000 millionaires from its employees alone."),
+    ("🪟 Microsoft", "In July 2012, Microsoft posted its first-ever quarterly net loss — $492 million — despite setting a revenue record that same quarter."),
+    ("🔍 Google", "Google's 2005 profit surged 700% as companies shifted advertising budgets away from traditional media to the internet."),
+    ("🔍 Google", "Between 2007–2010, Google reduced its effective tax rate to just 2.3% by routing profits through Ireland, the Netherlands, and Bermuda."),
+    ("📦 Amazon", "Amazon surpassed Walmart as the world's largest retailer outside China in 2021, driven by over 200 million Prime subscribers."),
+    ("📦 Amazon", "In 2025, Amazon generated $716.9 billion in revenue with $77.67 billion in net income — second-largest company globally."),
+    ("🎬 Netflix", "Netflix's stock dropped 35% in a single week in April 2022 after it revealed password-sharing concerns were hurting subscriber growth."),
+    ("🎬 Netflix", "In 2011, Netflix lost 800,000 subscribers in one quarter after a botched plan to spin off its DVD service as 'Qwikster'."),
+    ("📘 Meta", "Facebook's 2012 IPO raised $16 billion — the third-largest in US history — yet the stock fell 16.5% in its very first week of trading."),
+]
+
+fact_index = int(time.time() / 30) % len(DID_YOU_KNOW)
+company, fact = DID_YOU_KNOW[fact_index]
+st.info(f"💡 **Did you know? {company}** — {fact}")
 
 
 @st.cache_data
