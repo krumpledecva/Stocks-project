@@ -7,7 +7,7 @@ from streamlit_autorefresh import st_autorefresh
 st.set_page_config(page_title="Stock Explorer", layout="wide")
 
 # ── SquadAway-inspired design system ─────────────────────────────────────────
-st.markdown("""
+st.html("""
 <link href="https://fonts.googleapis.com/css2?family=Caveat+Brush&family=Caveat:wght@500;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -157,7 +157,7 @@ hr { border-color: var(--border) !important; border-style: dashed !important; }
 .js-plotly-plot .plotly .g-gtitle text,
 .js-plotly-plot .plotly text { font-family: 'Nunito', sans-serif !important; }
 </style>
-""", unsafe_allow_html=True)
+""")
 
 # ── Title & auto-refresh ──────────────────────────────────────────────────────
 st.title("📈 Stock Price Explorer")
